@@ -8,12 +8,34 @@
   <packaging>maven-plugin</packaging>
 
   <name>Fit Maven Plugin</name>
-
+  <description>A Maven Plugin to execute Fit tests</description>
   <url>https://github.com/cradloff/fit-maven-plugin</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Claus Radloff</name>
+      <email>claus.radloff@web.de</email>
+      <organization>Github</organization>
+      <organizationUrl>https://github.com/cradloff</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/cradloff/fit-maven-plugin.git</connection>
+    <developerConnection>scm:git:ssh://github.com:cradloff/fit-maven-plugin.git</developerConnection>
+    <url>http://github.com/cradloff/fit-maven-plugin/tree/master</url>
+  </scm>
 
   <dependencies>
     <dependency>
