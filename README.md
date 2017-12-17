@@ -1,6 +1,7 @@
 # Fit Maven Plugin
 
-Use this plugin to execute [Fit tests](http://fit.c2.com/) from Maven.
+Use this plugin to execute [Fit tests](http://fit.c2.com/) from Maven. Fit is a framework for tests
+which are specified in a Html page. It is a great complement for JUnit.
 
 ## Versioning
 The versioning for this plugin starts with 3.0. This is because there is already a plugin with the same
@@ -159,3 +160,5 @@ Run your project:
     [INFO] Writing results to /home/user/workspace/myproject/target/fit
     [INFO] Current working directory: /home/user/workspace/myproject
     [INFO] Result: 12 right, 0 wrong, 0 ignored, 0 exceptions
+
+View the results in `target/fit/calculator.html` and the summary in `target/fit/summary.html`.
