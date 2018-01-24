@@ -27,6 +27,8 @@ Add the plugin to your `pom.xml`:
       </executions>
     </plugin>
 
+To execute the Fit tests along with your JUnit tests, change `phase` to `test`.
+
 Add Fit library to your dependencies:
 
     <dependency>
