@@ -1,5 +1,7 @@
 package fit.plugin;
 
+import java.io.BufferedWriter;
+
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
  *
@@ -20,13 +22,15 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
@@ -49,7 +54,6 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 
 import fit.Counts;
-import fit.FileRunner;
 import fit.Fixture;
 import fit.Fixture.RunTime;
 import fit.Parse;
@@ -76,14 +80,22 @@ public class FitMojo extends AbstractMojo {
 
 	/** Pattern for Fit Tests as CSV */
 	@Parameter(defaultValue = "*.html")
-    private String sourceIncludes;
+	private String sourceIncludes;
 
 	/** ignore failures? */
 	@Parameter(defaultValue = "false")
 	private boolean ignoreFailures;
 
+	/** encoding of input files */
+	@Parameter(defaultValue="${project.build.sourceEncoding}")
+	private String sourceEncoding;
+
+	/** encoding of output files */
+	@Parameter(defaultValue="${project.reporting.outputEncoding}")
+	private String outputEncoding;
+
 	@Parameter(defaultValue="${project.testClasspathElements}", required=true)
-    private List<String> classpathElements;
+	private List<String> classpathElements;
 
 	private int countFiles;
 	private int countDirectories;
@@ -102,9 +114,11 @@ public class FitMojo extends AbstractMojo {
 		if (! sourceDirectory.exists()) {
 			throw new MojoFailureException(String.format("source directory %s does not exist!", sourceDirectory.getPath()));
 		}
-
 		File summaryFile = new File(outputDirectory, "summary.html");
-		try (PrintWriter out = new PrintWriter(new FileWriter(summaryFile), true)) {
+		Charset cs = Charsets.toCharset(outputEncoding);
+		try (OutputStream fos = new FileOutputStream(summaryFile);
+				Writer writer = new BufferedWriter(new OutputStreamWriter(fos, cs));
+				PrintWriter out = new PrintWriter(writer, true)) {
 			setupClassloader();
 
 			// copy stylesheet
@@ -201,7 +215,9 @@ public class FitMojo extends AbstractMojo {
 	}
 
 	private Counts processFile(PrintWriter out, File f) throws IOException {
-		FileRunner fr = new FileRunner();
+		Charset srcCs = Charsets.toCharset(sourceEncoding);
+		Charset outCs = Charsets.toCharset(outputEncoding);
+		FitFileRunner fr = new FitFileRunner(srcCs, outCs);
 		fr.args(new String[] { f.getPath(), outputPath(f).toString() });
 		fr.process();
 		fr.output.close();

@@ -45,6 +45,58 @@ Build your project and view the result at `target/fit/summary.html`. The summary
 fit tests along with the number of right, wrong and exceptions. Additionally the time to execute the
 test and the title are displayed.
 
+## Configuration
+The following parameters can be specified in the `configuration` section in `execution`:
+
+<dl>
+<dt>sourceDirectory</dt>
+<dd>Location of source directory. Default: src/test/fit</dd>
+
+<dt>outputDirectory</dt>
+<dd>Location of output directory. Default: ${project.build.directory}/fit</dd>
+
+<dt>caseSensitive</dt>
+<dd>specify whether sourceIncludes is case sensitive.Default: true</dd>
+
+<dt>sourceIncludes</dt>
+<dd>Pattern for Fit Tests as comma separated values (e.g. "*.html,*.xhtml,*.fit"). Default: *.html</dd>
+
+<dt>ignoreFailures</dt>
+<dd>ignore failures? Default: false</dd>
+
+<dt>sourceEncoding</dt>
+<dd>encoding of input files Default: ${project.build.sourceEncoding}</dd>
+
+<dt>outputEncoding</dt>
+<dd>encoding of output files Default: ${project.reporting.outputEncoding}</dd>
+</dl>
+
+The plugin definition with all parameters (with default values on unix) looks like this:
+
+    <plugin>
+      <groupId>com.github.cradloff</groupId>
+      <artifactId>fit-maven-plugin</artifactId>
+      <version>3.0</version>
+      <executions>
+        <execution>
+          <configuration>
+            <sourceDirectory>src/test/fit</sourceDirectory>
+            <outputDirectory>target/fit</outputDirectory>
+            <caseSensitive>true</caseSensitive>
+            <sourceIncludes>*.html</sourceIncludes>
+            <ignoreFailures>false</ignoreFailures>
+            <sourceEncoding>UTF-8</sourceEncoding>
+            <outputEncoding>UTF-8</outputEncoding>
+          </configuration>
+          <id>fixture</id>
+          <phase>integration-test</phase>
+          <goals>
+            <goal>run</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+
 ## Example
 
 `src/test/fit/Calculator.java`:
