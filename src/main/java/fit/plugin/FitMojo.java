@@ -130,7 +130,7 @@ public class FitMojo extends AbstractMojo {
 				}
 			}
 
-			Counts counts = process(out);
+			Counts counts = process(out, cs);
 
 			getLog().info("Result: " + counts);
 			if ((counts.exceptions > 0 || counts.wrong > 0)
@@ -143,13 +143,17 @@ public class FitMojo extends AbstractMojo {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Counts process(PrintWriter out)
+	private Counts process(PrintWriter out, Charset cs)
 			throws IOException, MojoExecutionException, ParseException {
 		Summary summary = new Summary();
 		summary.summary.put("run date", new Date());
 		summary.summary.put("run elapsed time", summary.new RunTime());
+		out.printf("<?xml version='1.0' encoding='%s'?>%n", cs.name());
+		out.println("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>");
+		out.println("<html xmlns='http://www.w3.org/1999/xhtml'>");
 		out.println("<html>");
 		out.println("<head>");
+		out.printf("<meta http-equiv='Content-Type' content='text/html; charset=%s' />%n", cs.name());
 		out.println("<title>Summary</title>");
 		out.printf("<link rel='stylesheet' href='%s'/>%n", STYLESHEET);
 		out.println("</head>");
