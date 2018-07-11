@@ -15,7 +15,7 @@ Add the plugin to your `pom.xml`:
     <plugin>
       <groupId>com.github.cradloff</groupId>
       <artifactId>fit-maven-plugin</artifactId>
-      <version>3.0</version>
+      <version>3.1</version>
       <executions>
         <execution>
           <id>fixture</id>
@@ -76,7 +76,7 @@ The plugin definition with all parameters (with default values on unix) looks li
     <plugin>
       <groupId>com.github.cradloff</groupId>
       <artifactId>fit-maven-plugin</artifactId>
-      <version>3.0</version>
+      <version>3.1</version>
       <executions>
         <execution>
           <configuration>
@@ -209,7 +209,7 @@ Run your project:
 
     mvn install
     
-    [INFO] --- fit-maven-plugin:3.0:run (fixture) @ myproject ---
+    [INFO] --- fit-maven-plugin:3.1:run (fixture) @ myproject ---
     [INFO] Executing fit tests (*.html) in /home/user/workspace/myproject/src/test/fit
     [INFO] Writing results to /home/user/workspace/myproject/target/fit
     [INFO] Current working directory: /home/user/workspace/myproject
